@@ -12,21 +12,25 @@ ctx.lineJoin = 'miter';
 ctx.lineCap = 'round';
 ctx.lineWidth = 70;
 
-function draw(e) {
-  if (!isDrawing) return;
+let draw = (event) => {
+  if (!isDrawing) {
+    return;
+  }
   ctx.strokeStyle = `hsl(${hue}, 100%, 50%)`;
   ctx.beginPath();  
   ctx.moveTo(lastX, lastY);
-  ctx.lineTo(e.offsetX, e.offsetY);
+  ctx.lineTo(event.offsetX, event.offsetY);
   ctx.stroke();
-  [lastX, lastY] = [e.offsetX, e.offsetY];  
-  hue++;
-  if (hue >= 360) 
-    hue = 0;  
-  if (ctx.lineWidth >= 100 || ctx.lineWidth <= 1) 
+  [lastX, lastY] = [event.offsetX, event.offsetY];  
+  hue = hue + 1;
+  if (hue >= 360) {
+    hue = 0;
+  }  
+  if (ctx.lineWidth >= 100 || ctx.lineWidth <= 1) {
     direction = !direction;      
-  direction  ? ctx.lineWidth++ : ctx.lineWidth-- ;  
-  }
+  direction  ? ctx.lineWidth++ : ctx.lineWidth--;
+}
+}
 
 canvas.addEventListener('mouseup', () => isDrawing = false);
 canvas.addEventListener('mouseout', () => isDrawing = false);
